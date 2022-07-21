@@ -3,7 +3,7 @@
 #include <QFontDatabase>
 
 GameScene::GameScene(QObject *parent)
-    : QGraphicsScene(parent), m_deltaTime(0.0f), m_loopTime(0.0f), m_loopSpeed(1.0f/float(Game::FPS))
+    : QGraphicsScene(parent), m_deltaTime(0.0f), m_loopTime(0.0f), m_loopSpeed(1.0f/float(Game::FPS)), m_score(0)
 {
     setSceneRect(0,0, Game::RESOLUTION.width(), Game::RESOLUTION.height());
     connect(&m_timer, &QTimer::timeout, this, &GameScene::loop);
@@ -25,6 +25,7 @@ void GameScene::loop()
         m_loopTime -= m_loopSpeed;
         setBackgroundBrush(QBrush(Game::BGCOLOR));
         drawInfoText();
+        drawScoreText();
     }
 }
 
@@ -36,5 +37,16 @@ void GameScene::drawInfoText()
     text->setPen(QPen(Game::DARKGRAY));
     text->setBrush(QBrush(Game::DARKGRAY));
     text->setText("Match the pattern by clicking on the button or using the Q, W, A, S keys.");
+    addItem(text);
+}
+
+void GameScene::drawScoreText()
+{
+    QGraphicsSimpleTextItem* text = new QGraphicsSimpleTextItem();
+    text->setFont(m_basicFont);
+    text->setPos(Game::RESOLUTION.width() - 100, 10);
+    text->setPen(QPen(Game::WHITE));
+    text->setBrush(QBrush(Game::WHITE));
+    text->setText("Score: " + QString::number(m_score));
     addItem(text);
 }
