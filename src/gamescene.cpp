@@ -10,6 +10,8 @@ GameScene::GameScene(QObject *parent)
     m_timer.start(m_loopSpeed);
     m_elapsedTimer.start();
 
+    int id = QFontDatabase::addApplicationFont(Game::PATH_TO_BASIC_FONT);
+    m_basicFont = QFont(QFontDatabase::applicationFontFamilies(id).at(0), 15, 0);
 }
 
 void GameScene::loop()
@@ -22,10 +24,17 @@ void GameScene::loop()
     {
         m_loopTime -= m_loopSpeed;
         setBackgroundBrush(QBrush(Game::BGCOLOR));
+        drawInfoText();
     }
 }
 
 void GameScene::drawInfoText()
 {
-
+    QGraphicsSimpleTextItem* text = new QGraphicsSimpleTextItem();
+    text->setFont(m_basicFont);
+    text->setPos(10, Game::RESOLUTION.height()-25);
+    text->setPen(QPen(Game::DARKGRAY));
+    text->setBrush(QBrush(Game::DARKGRAY));
+    text->setText("Match the pattern by clicking on the button or using the Q, W, A, S keys.");
+    addItem(text);
 }
