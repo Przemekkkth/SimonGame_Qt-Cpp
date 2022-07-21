@@ -39,6 +39,7 @@ public:
     static constexpr QRect GREENRECT = QRect(XMARGIN + BUTTONSIZE + BUTTONGAPSIZE, YMARGIN + BUTTONSIZE + BUTTONGAPSIZE, BUTTONSIZE, BUTTONSIZE);
 
     static const QString PATH_TO_BEEP_SOUNDS[4];
+    static const QString PATH_TO_BASIC_FONT;
 };
 
 #endif // GAME_H

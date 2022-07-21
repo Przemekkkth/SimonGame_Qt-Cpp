@@ -4,5 +4,6 @@
         <file>res/beep4.ogg</file>
         <file>res/beep2.ogg</file>
         <file>res/beep1.ogg</file>
+        <file>res/freesansbold.ttf</file>
     </qresource>
 </RCC>
