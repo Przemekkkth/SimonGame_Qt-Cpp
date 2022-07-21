@@ -20,6 +20,7 @@ private slots:
 private:
     void drawInfoText();
     void drawScoreText();
+    void drawButtons();
     QTimer m_timer;
     QElapsedTimer m_elapsedTimer;
     float m_deltaTime, m_loopTime;

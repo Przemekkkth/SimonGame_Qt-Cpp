@@ -26,6 +26,7 @@ void GameScene::loop()
         setBackgroundBrush(QBrush(Game::BGCOLOR));
         drawInfoText();
         drawScoreText();
+        drawButtons();
     }
 }
 
@@ -49,4 +50,35 @@ void GameScene::drawScoreText()
     text->setBrush(QBrush(Game::WHITE));
     text->setText("Score: " + QString::number(m_score));
     addItem(text);
+}
+
+void GameScene::drawButtons()
+{
+    QGraphicsRectItem* yellowItem = new QGraphicsRectItem();
+    yellowItem->setBrush(QBrush(Game::YELLOW));
+    yellowItem->setPen(QPen(Game::YELLOW));
+    yellowItem->setRect(0,0, Game::YELLOWRECT.width(), Game::YELLOWRECT.height());
+    yellowItem->setPos(Game::YELLOWRECT.x(), Game::YELLOWRECT.y());
+    addItem(yellowItem);
+
+    QGraphicsRectItem* blueItem = new QGraphicsRectItem();
+    blueItem->setBrush(QBrush(Game::BLUE));
+    blueItem->setPen(QPen(Game::BLUE));
+    blueItem->setRect(0,0, Game::BLUERECT.width(), Game::BLUERECT.height());
+    blueItem->setPos(Game::BLUERECT.x(), Game::BLUERECT.y());
+    addItem(blueItem);
+
+    QGraphicsRectItem* redItem = new QGraphicsRectItem();
+    redItem->setBrush(QBrush(Game::RED));
+    redItem->setPen(QPen(Game::RED));
+    redItem->setRect(0,0, Game::REDRECT.width(), Game::REDRECT.height());
+    redItem->setPos(Game::REDRECT.x(), Game::REDRECT.y());
+    addItem(redItem);
+
+    QGraphicsRectItem* greenItem = new QGraphicsRectItem();
+    greenItem->setBrush(QBrush(Game::GREEN));
+    greenItem->setPen(QPen(Game::GREEN));
+    greenItem->setRect(0,0, Game::GREENRECT.width(), Game::GREENRECT.height());
+    greenItem->setPos(Game::GREENRECT.x(), Game::GREENRECT.y());
+    addItem(greenItem);
 }
