@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>res/beep3.ogg</file>
-        <file>res/beep4.ogg</file>
-        <file>res/beep2.ogg</file>
-        <file>res/beep1.ogg</file>
         <file>res/freesansbold.ttf</file>
+        <file>res/beep3.wav</file>
+        <file>res/beep2.wav</file>
+        <file>res/beep4.wav</file>
+        <file>res/beep1.wav</file>
     </qresource>
 </RCC>

@@ -10,15 +10,20 @@ GameScene::GameScene(QObject *parent)
       m_loopSpeed(1.0f/float(Game::FPS)), m_score(0), m_waitingForInput(false), m_clickedPoint("NONE"),
       MOVE_PATTERN{QString("YELLOW"), QString("RED"), QString("BLUE"), QString("GREEN")}
 {
+    loadSoundEffects();
     setSceneRect(0,0, Game::RESOLUTION.width(), Game::RESOLUTION.height());
     connect(&m_timer, &QTimer::timeout, this, &GameScene::loop);
     m_timer.start(m_loopSpeed);
     m_elapsedTimer.start();
 
-    loadSoundEffects();
+
     int id = QFontDatabase::addApplicationFont(Game::PATH_TO_BASIC_FONT);
     m_basicFont = QFont(QFontDatabase::applicationFontFamilies(id).at(0), 15, 0);
     m_pattern.clear();
+
+    m_beep1SEffect.play();
+    m_beep2SEffect.play();
+
 }
 
 void GameScene::loop()
@@ -43,6 +48,7 @@ void GameScene::loop()
                 flashButtonAnimation(button);
                 QThread::currentThread()->msleep(Game::FLASHDELAY);
             }
+            m_waitingForInput = true;
         }
         else
         {
@@ -106,10 +112,14 @@ void GameScene::drawButtons()
 
 void GameScene::loadSoundEffects()
 {
-    m_beep1SEffect.setSource(QUrl("qrc:/res/beep1.ogg"));
-    m_beep2SEffect.setSource(QUrl("qrc:/res/beep2.ogg"));
-    m_beep3SEffect.setSource(QUrl("qrc:/res/beep3.ogg"));
-    m_beep4SEffect.setSource(QUrl("qrc:/res/beep4.ogg"));
+    m_beep1SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[0]));
+    m_beep1SEffect.setVolume(1.0f);
+    m_beep2SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[1]));
+    m_beep2SEffect.setVolume(1.0f);
+    m_beep3SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[2]));
+    m_beep3SEffect.setVolume(1.0f);
+    m_beep4SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[3]));
+    m_beep4SEffect.setVolume(1.0f);
 }
 
 QString GameScene::getButtonClicked(QPointF clickedPoint)
