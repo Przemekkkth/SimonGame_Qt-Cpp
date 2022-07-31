@@ -18,16 +18,20 @@ public:
     explicit GameScene(QObject *parent = nullptr);
 
 signals:
+    void changePattern();
 private slots:
     void loop();
+    void nextPossibleAnim();
+public slots:
+    void setPattern();
 private:
     void drawInfoText();
     void drawScoreText();
     void drawButtons();
     void loadSoundEffects();
     QString getButtonClicked(QPointF clickedPoint);
-    void flashButtonAnimation(QString color, int animationSpeed = 50);
-    void setPattern();
+    void flashButtonAnimation(QString color);
+
     QTimer m_timer;
     QElapsedTimer m_elapsedTimer;
     float m_deltaTime, m_loopTime;
@@ -41,6 +45,7 @@ private:
     int m_score;
     bool m_waitingForInput;
     QFont m_basicFont;
+    int m_currentAnim;
 
     QString m_clickedPoint;
     const QString MOVE_PATTERN[4];

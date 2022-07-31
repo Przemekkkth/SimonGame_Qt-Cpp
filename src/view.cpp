@@ -10,6 +10,7 @@ View::View(QWidget *parent)
     resize(sceneRect().width() + 2, sceneRect().height() + 2);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    connect(m_gameScene, &GameScene::changePattern, m_gameScene, &GameScene::setPattern);
 }
 
 void View::keyPressEvent(QKeyEvent *event)

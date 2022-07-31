@@ -26,10 +26,14 @@ GameScene::GameScene(QObject *parent)
     drawScoreText();
     drawButtons();
 
-    //m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-    //m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-    //m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-    //setPattern();
+    connect(this, &GameScene::changePattern, this, &GameScene::setPattern);
+    connect(m_yellowRectItem, &RectItem::finishAlphaAnim, this, &GameScene::nextPossibleAnim);
+    connect(m_blueRectItem, &RectItem::finishAlphaAnim, this, &GameScene::nextPossibleAnim);
+    connect(m_redRectItem, &RectItem::finishAlphaAnim, this, &GameScene::nextPossibleAnim);
+    connect(m_greenRectItem, &RectItem::finishAlphaAnim, this, &GameScene::nextPossibleAnim);
+
+    m_currentAnim = 0;
+    setPattern();
 }
 
 void GameScene::loop()
@@ -61,6 +65,20 @@ void GameScene::loop()
 
     //        }
     //    }
+}
+
+void GameScene::nextPossibleAnim()
+{
+    m_currentAnim++;
+    if(m_currentAnim >= m_pattern.size())
+    {
+        m_waitingForInput = true;
+        m_currentAnim = 0;
+    }
+    else
+    {
+        flashButtonAnimation(m_pattern[m_currentAnim]);
+    }
 }
 
 void GameScene::drawInfoText()
@@ -114,6 +132,7 @@ void GameScene::drawButtons()
     m_greenRectItem->setRect(0,0, Game::GREENRECT.width(), Game::GREENRECT.height());
     m_greenRectItem->setPos(Game::GREENRECT.x(), Game::GREENRECT.y());
     addItem(m_greenRectItem);
+
 }
 
 void GameScene::loadSoundEffects()
@@ -150,63 +169,24 @@ QString GameScene::getButtonClicked(QPointF clickedPoint)
     return "NONE";
 }
 
-void GameScene::flashButtonAnimation(QString color, int animationSpeed)
+void GameScene::flashButtonAnimation(QString color)
 {
-    int type;
-    QRect rectangle;
-    QColor flashColor;
     if(color == "YELLOW")
     {
-        type = 1;
-        flashColor = Game::BRIGHTYELLOW;
-        rectangle = Game::YELLOWRECT;
+        m_yellowRectItem->startAnim();
     }
     else if(color == "BLUE")
     {
-        type = 2;
-        flashColor = Game::BRIGHTBLUE;
-        rectangle = Game::BLUERECT;
+        m_blueRectItem->startAnim();
     }
     else if(color == "RED")
     {
-        type = 3;
-        flashColor = Game::BRIGHTRED;
-        rectangle = Game::REDRECT;
+        m_redRectItem->startAnim();
     }
-    else {
-        type = 4;
-        flashColor = Game::BRIGHTBLUE;
-        rectangle = Game::BLUERECT;
-    }
-
-    switch (type) {
-    case 1:
-        m_beep1SEffect.play();
-        break;
-    case 2:
-        m_beep2SEffect.play();
-        break;
-    case 3:
-        m_beep3SEffect.play();
-        break;
-    case 4:
-        m_beep4SEffect.play();
-        break;
-    }
-
-    QGraphicsRectItem rectItem;
-    rectItem.setRect(0,0, rectangle.width(), rectangle.height());
-    addItem(&rectItem);
-    for(int start = 0, end = 255, step = 0; start < 255 && end > 0; ++start, ++end, ++step)
+    else if(color == "GREEN")
     {
-        for(int alpha = 0; alpha > end; alpha += (animationSpeed * step))
-        {
-            rectItem.setPos(rectangle.topLeft());
-            rectItem.setBrush(QBrush(QColor(flashColor.red(), flashColor.green(), flashColor.blue(), alpha)));
-            //QThread::currentThread()->msleep(1000.0f/Game::FPS);
-        }
+        m_greenRectItem->startAnim();
     }
-    removeItem(&rectItem);
 }
 
 void GameScene::setPattern()
@@ -214,29 +194,10 @@ void GameScene::setPattern()
     if(!m_waitingForInput)
     {
         QThread::currentThread()->msleep(1000);
-        m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-        m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-        foreach(QString button, m_pattern)
-        {
-            if(button == "YELLOW")
-            {
-                m_yellowRectItem->startAnim();
-            }
-            else if(button == "BLUE")
-            {
-                m_blueRectItem->startAnim();
-            }
-            else if(button == "GREEN")
-            {
-                m_greenRectItem->startAnim();
-            }
-            else if(button == "RED")
-            {
-                m_redRectItem->startAnim();
-            }
-            QThread::currentThread()->msleep(1000);
-        }
-        m_waitingForInput = true;
+        qDebug() << "rand() % MOVE_PATTERN->size() " << MOVE_PATTERN->size();
+        m_pattern.append(MOVE_PATTERN[rand() % Game::PATTERN_SIZE]);
+        qDebug() << m_pattern.last();
+        flashButtonAnimation(m_pattern[0]);
     }
 }
 
