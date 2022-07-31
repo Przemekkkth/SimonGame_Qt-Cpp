@@ -12,7 +12,7 @@ GameScene::GameScene(QObject *parent)
 {
     loadSoundEffects();
     setSceneRect(0,0, Game::RESOLUTION.width(), Game::RESOLUTION.height());
-    connect(&m_timer, &QTimer::timeout, this, &GameScene::loop);
+   // connect(&m_timer, &QTimer::timeout, this, &GameScene::loop);
     m_timer.start(m_loopSpeed);
     m_elapsedTimer.start();
 
@@ -21,40 +21,47 @@ GameScene::GameScene(QObject *parent)
     m_basicFont = QFont(QFontDatabase::applicationFontFamilies(id).at(0), 15, 0);
     m_pattern.clear();
 
-    m_beep1SEffect.play();
-    m_beep2SEffect.play();
+//    m_beep1SEffect.play();
+//    m_beep2SEffect.play();
 
+    RectItem* r = new RectItem(Game::PATH_TO_BEEP_SOUNDS[0]);
+    r->setBrush(QBrush(Game::YELLOW));
+    r->setPen(QPen(Game::YELLOW));
+    r->setRect(0,0, Game::YELLOWRECT.width(), Game::YELLOWRECT.height());
+    r->setPos(Game::YELLOWRECT.x(), Game::YELLOWRECT.y());
+    addItem(r);
+    r->startAnim();
 }
 
 void GameScene::loop()
 {
-    m_deltaTime = m_elapsedTimer.elapsed();
-    m_elapsedTimer.restart();
+//    m_deltaTime = m_elapsedTimer.elapsed();
+//    m_elapsedTimer.restart();
 
-    m_loopTime += m_deltaTime;
-    if( m_loopTime > m_loopSpeed)
-    {
-        m_loopTime -= m_loopSpeed;
-        setBackgroundBrush(QBrush(Game::BGCOLOR));
-        drawInfoText();
-        drawScoreText();
-        drawButtons();
-        if(!m_waitingForInput)
-        {
-            QThread::currentThread()->msleep(1000);
-            m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-            foreach(QString button, m_pattern)
-            {
-                flashButtonAnimation(button);
-                QThread::currentThread()->msleep(Game::FLASHDELAY);
-            }
-            m_waitingForInput = true;
-        }
-        else
-        {
+//    m_loopTime += m_deltaTime;
+//    if( m_loopTime > m_loopSpeed)
+//    {
+//        m_loopTime -= m_loopSpeed;
+//        //setBackgroundBrush(QBrush(Game::BGCOLOR));
+//        drawInfoText();
+//        drawScoreText();
+//        drawButtons();
+//        if(!m_waitingForInput)
+//        {
+//            QThread::currentThread()->msleep(1000);
+//            m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
+//            foreach(QString button, m_pattern)
+//            {
+//                flashButtonAnimation(button);
+//                QThread::currentThread()->msleep(Game::FLASHDELAY);
+//            }
+//            m_waitingForInput = true;
+//        }
+//        else
+//        {
 
-        }
-    }
+//        }
+//    }
 }
 
 void GameScene::drawInfoText()
@@ -197,7 +204,7 @@ void GameScene::flashButtonAnimation(QString color, int animationSpeed)
         {
             rectItem.setPos(rectangle.topLeft());
             rectItem.setBrush(QBrush(QColor(flashColor.red(), flashColor.green(), flashColor.blue(), alpha)));
-            QThread::currentThread()->msleep(1000.0f/Game::FPS);
+            //QThread::currentThread()->msleep(1000.0f/Game::FPS);
         }
     }
     removeItem(&rectItem);

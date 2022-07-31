@@ -8,6 +8,7 @@
 #include <QTime>
 #include <QFont>
 #include "game.h"
+#include "rectitem.h"
 class GameScene : public QGraphicsScene
 {
     Q_OBJECT
