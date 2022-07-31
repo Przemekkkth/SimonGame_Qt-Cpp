@@ -7,6 +7,8 @@
 #include <QSoundEffect>
 #include <QTime>
 #include <QFont>
+#include <QGraphicsSimpleTextItem>
+
 #include "game.h"
 #include "rectitem.h"
 class GameScene : public QGraphicsScene
@@ -25,6 +27,7 @@ private:
     void loadSoundEffects();
     QString getButtonClicked(QPointF clickedPoint);
     void flashButtonAnimation(QString color, int animationSpeed = 50);
+    void setPattern();
     QTimer m_timer;
     QElapsedTimer m_elapsedTimer;
     float m_deltaTime, m_loopTime;
@@ -42,6 +45,8 @@ private:
     QString m_clickedPoint;
     const QString MOVE_PATTERN[4];
     // QGraphicsScene interface
+    QGraphicsSimpleTextItem *m_scoreText;
+    RectItem *m_yellowRectItem, *m_redRectItem, *m_greenRectItem, *m_blueRectItem;
 protected:
     virtual void keyPressEvent(QKeyEvent *event) override;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

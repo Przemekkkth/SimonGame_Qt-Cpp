@@ -12,7 +12,7 @@ GameScene::GameScene(QObject *parent)
 {
     loadSoundEffects();
     setSceneRect(0,0, Game::RESOLUTION.width(), Game::RESOLUTION.height());
-   // connect(&m_timer, &QTimer::timeout, this, &GameScene::loop);
+    // connect(&m_timer, &QTimer::timeout, this, &GameScene::loop);
     m_timer.start(m_loopSpeed);
     m_elapsedTimer.start();
 
@@ -21,47 +21,46 @@ GameScene::GameScene(QObject *parent)
     m_basicFont = QFont(QFontDatabase::applicationFontFamilies(id).at(0), 15, 0);
     m_pattern.clear();
 
-//    m_beep1SEffect.play();
-//    m_beep2SEffect.play();
+    setBackgroundBrush(QBrush(Game::BGCOLOR));
+    drawInfoText();
+    drawScoreText();
+    drawButtons();
 
-    RectItem* r = new RectItem(Game::PATH_TO_BEEP_SOUNDS[0]);
-    r->setBrush(QBrush(Game::YELLOW));
-    r->setPen(QPen(Game::YELLOW));
-    r->setRect(0,0, Game::YELLOWRECT.width(), Game::YELLOWRECT.height());
-    r->setPos(Game::YELLOWRECT.x(), Game::YELLOWRECT.y());
-    addItem(r);
-    r->startAnim();
+    //m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
+    //m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
+    //m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
+    //setPattern();
 }
 
 void GameScene::loop()
 {
-//    m_deltaTime = m_elapsedTimer.elapsed();
-//    m_elapsedTimer.restart();
+    //    m_deltaTime = m_elapsedTimer.elapsed();
+    //    m_elapsedTimer.restart();
 
-//    m_loopTime += m_deltaTime;
-//    if( m_loopTime > m_loopSpeed)
-//    {
-//        m_loopTime -= m_loopSpeed;
-//        //setBackgroundBrush(QBrush(Game::BGCOLOR));
-//        drawInfoText();
-//        drawScoreText();
-//        drawButtons();
-//        if(!m_waitingForInput)
-//        {
-//            QThread::currentThread()->msleep(1000);
-//            m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-//            foreach(QString button, m_pattern)
-//            {
-//                flashButtonAnimation(button);
-//                QThread::currentThread()->msleep(Game::FLASHDELAY);
-//            }
-//            m_waitingForInput = true;
-//        }
-//        else
-//        {
+    //    m_loopTime += m_deltaTime;
+    //    if( m_loopTime > m_loopSpeed)
+    //    {
+    //        m_loopTime -= m_loopSpeed;
+    //        //setBackgroundBrush(QBrush(Game::BGCOLOR));
+    //        drawInfoText();
+    //        drawScoreText();
+    //        drawButtons();
+    //        if(!m_waitingForInput)
+    //        {
+    //            QThread::currentThread()->msleep(1000);
+    //            m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
+    //            foreach(QString button, m_pattern)
+    //            {
+    //                flashButtonAnimation(button);
+    //                QThread::currentThread()->msleep(Game::FLASHDELAY);
+    //            }
+    //            m_waitingForInput = true;
+    //        }
+    //        else
+    //        {
 
-//        }
-//    }
+    //        }
+    //    }
 }
 
 void GameScene::drawInfoText()
@@ -77,44 +76,44 @@ void GameScene::drawInfoText()
 
 void GameScene::drawScoreText()
 {
-    QGraphicsSimpleTextItem* text = new QGraphicsSimpleTextItem();
-    text->setFont(m_basicFont);
-    text->setPos(Game::RESOLUTION.width() - 100, 10);
-    text->setPen(QPen(Game::WHITE));
-    text->setBrush(QBrush(Game::WHITE));
-    text->setText("Score: " + QString::number(m_score));
-    addItem(text);
+    m_scoreText = new QGraphicsSimpleTextItem();
+    m_scoreText->setFont(m_basicFont);
+    m_scoreText->setPos(Game::RESOLUTION.width() - 100, 10);
+    m_scoreText->setPen(QPen(Game::WHITE));
+    m_scoreText->setBrush(QBrush(Game::WHITE));
+    m_scoreText->setText("Score: " + QString::number(m_score));
+    addItem(m_scoreText);
 }
 
 void GameScene::drawButtons()
 {
-    QGraphicsRectItem* yellowItem = new QGraphicsRectItem();
-    yellowItem->setBrush(QBrush(Game::YELLOW));
-    yellowItem->setPen(QPen(Game::YELLOW));
-    yellowItem->setRect(0,0, Game::YELLOWRECT.width(), Game::YELLOWRECT.height());
-    yellowItem->setPos(Game::YELLOWRECT.x(), Game::YELLOWRECT.y());
-    addItem(yellowItem);
+    m_yellowRectItem = new RectItem(Game::PATH_TO_BEEP_SOUNDS[0]);
+    m_yellowRectItem->setBrush(QBrush(Game::YELLOW));
+    m_yellowRectItem->setPen(QPen(Game::YELLOW));
+    m_yellowRectItem->setRect(0,0, Game::YELLOWRECT.width(), Game::YELLOWRECT.height());
+    m_yellowRectItem->setPos(Game::YELLOWRECT.x(), Game::YELLOWRECT.y());
+    addItem(m_yellowRectItem);
 
-    QGraphicsRectItem* blueItem = new QGraphicsRectItem();
-    blueItem->setBrush(QBrush(Game::BLUE));
-    blueItem->setPen(QPen(Game::BLUE));
-    blueItem->setRect(0,0, Game::BLUERECT.width(), Game::BLUERECT.height());
-    blueItem->setPos(Game::BLUERECT.x(), Game::BLUERECT.y());
-    addItem(blueItem);
+    m_blueRectItem = new RectItem(Game::PATH_TO_BEEP_SOUNDS[1]);
+    m_blueRectItem->setBrush(QBrush(Game::BLUE));
+    m_blueRectItem->setPen(QPen(Game::BLUE));
+    m_blueRectItem->setRect(0,0, Game::BLUERECT.width(), Game::BLUERECT.height());
+    m_blueRectItem->setPos(Game::BLUERECT.x(), Game::BLUERECT.y());
+    addItem(m_blueRectItem);
 
-    QGraphicsRectItem* redItem = new QGraphicsRectItem();
-    redItem->setBrush(QBrush(Game::RED));
-    redItem->setPen(QPen(Game::RED));
-    redItem->setRect(0,0, Game::REDRECT.width(), Game::REDRECT.height());
-    redItem->setPos(Game::REDRECT.x(), Game::REDRECT.y());
-    addItem(redItem);
+    m_redRectItem = new RectItem(Game::PATH_TO_BEEP_SOUNDS[2]);
+    m_redRectItem->setBrush(QBrush(Game::RED));
+    m_redRectItem->setPen(QPen(Game::RED));
+    m_redRectItem->setRect(0,0, Game::REDRECT.width(), Game::REDRECT.height());
+    m_redRectItem->setPos(Game::REDRECT.x(), Game::REDRECT.y());
+    addItem(m_redRectItem);
 
-    QGraphicsRectItem* greenItem = new QGraphicsRectItem();
-    greenItem->setBrush(QBrush(Game::GREEN));
-    greenItem->setPen(QPen(Game::GREEN));
-    greenItem->setRect(0,0, Game::GREENRECT.width(), Game::GREENRECT.height());
-    greenItem->setPos(Game::GREENRECT.x(), Game::GREENRECT.y());
-    addItem(greenItem);
+    m_greenRectItem = new RectItem(Game::PATH_TO_BEEP_SOUNDS[3]);
+    m_greenRectItem->setBrush(QBrush(Game::GREEN));
+    m_greenRectItem->setPen(QPen(Game::GREEN));
+    m_greenRectItem->setRect(0,0, Game::GREENRECT.width(), Game::GREENRECT.height());
+    m_greenRectItem->setPos(Game::GREENRECT.x(), Game::GREENRECT.y());
+    addItem(m_greenRectItem);
 }
 
 void GameScene::loadSoundEffects()
@@ -208,6 +207,37 @@ void GameScene::flashButtonAnimation(QString color, int animationSpeed)
         }
     }
     removeItem(&rectItem);
+}
+
+void GameScene::setPattern()
+{
+    if(!m_waitingForInput)
+    {
+        QThread::currentThread()->msleep(1000);
+        m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
+        m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
+        foreach(QString button, m_pattern)
+        {
+            if(button == "YELLOW")
+            {
+                m_yellowRectItem->startAnim();
+            }
+            else if(button == "BLUE")
+            {
+                m_blueRectItem->startAnim();
+            }
+            else if(button == "GREEN")
+            {
+                m_greenRectItem->startAnim();
+            }
+            else if(button == "RED")
+            {
+                m_redRectItem->startAnim();
+            }
+            QThread::currentThread()->msleep(1000);
+        }
+        m_waitingForInput = true;
+    }
 }
 
 void GameScene::keyPressEvent(QKeyEvent *event)
