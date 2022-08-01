@@ -31,6 +31,7 @@ private:
     void loadSoundEffects();
     QString getButtonClicked(QPointF clickedPoint);
     void flashButtonAnimation(QString color);
+    void checkClickedPosition();
 
     QTimer m_timer;
     QElapsedTimer m_elapsedTimer;

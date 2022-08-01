@@ -33,6 +33,7 @@ GameScene::GameScene(QObject *parent)
     connect(m_greenRectItem, &RectItem::finishAlphaAnim, this, &GameScene::nextPossibleAnim);
 
     m_currentAnim = 0;
+    m_currentStep = 0;
     setPattern();
 }
 
@@ -152,18 +153,22 @@ QString GameScene::getButtonClicked(QPointF clickedPoint)
     if(Game::YELLOWRECT.contains(QPoint(clickedPoint.x(), clickedPoint.y())))
     {
         m_clickedPoint = "YELLOW";
+        return m_clickedPoint;
     }
     else if(Game::BLUERECT.contains(QPoint(clickedPoint.x(), clickedPoint.y())))
     {
         m_clickedPoint = "BLUE";
+        return m_clickedPoint;
     }
     else if(Game::REDRECT.contains(QPoint(clickedPoint.x(), clickedPoint.y())))
     {
         m_clickedPoint = "RED";
+        return m_clickedPoint;
     }
     else if(Game::GREENRECT.contains(QPoint(clickedPoint.x(), clickedPoint.y())))
     {
         m_clickedPoint = "GREEN";
+        return m_clickedPoint;
     }
 
     return "NONE";
@@ -189,6 +194,36 @@ void GameScene::flashButtonAnimation(QString color)
     }
 }
 
+void GameScene::checkClickedPosition()
+{
+    if(m_clickedPoint == m_pattern[m_currentStep])
+    {
+        m_currentStep++;
+    }
+    else
+    {
+        m_waitingForInput = false;
+        m_score = 0;
+        m_currentStep = 0;
+        m_yellowRectItem->play();
+        m_redRectItem->play();
+        m_redRectItem->play();
+        m_blueRectItem->play();
+        setPattern();
+    }
+
+
+    if(m_currentStep == m_pattern.size())
+    {
+        m_waitingForInput = false;
+        setPattern();
+        m_score++;
+        m_currentStep = 0;
+
+    }
+    m_scoreText->setText("Score: " + QString::number(m_score));
+}
+
 void GameScene::setPattern()
 {
     if(!m_waitingForInput)
@@ -203,26 +238,37 @@ void GameScene::setPattern()
 
 void GameScene::keyPressEvent(QKeyEvent *event)
 {
-    switch (event->key()) {
-    case Qt::Key_Q:
-        m_clickedPoint = "YELLOW";
-        break;
-    case Qt::Key_W:
-        m_clickedPoint = "BLUE";
-        break;
-    case Qt::Key_A:
-        m_clickedPoint = "RED";
-        break;
-    case Qt::Key_S:
-        m_clickedPoint = "GREEN";
-        break;
+    if(m_waitingForInput)
+    {
+        switch (event->key()) {
+        case Qt::Key_Q:
+            m_clickedPoint = "YELLOW";
+            break;
+        case Qt::Key_W:
+            m_clickedPoint = "BLUE";
+            break;
+        case Qt::Key_A:
+            m_clickedPoint = "RED";
+            break;
+        case Qt::Key_S:
+            m_clickedPoint = "GREEN";
+            break;
+        }
+        checkClickedPosition();
     }
     QGraphicsScene::keyPressEvent(event);
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-
+    if(m_waitingForInput)
+    {
+        qDebug() << event->scenePos();
+        if(getButtonClicked(event->scenePos()) != "NONE")
+        {
+            checkClickedPosition();
+        }
+    }
 
     QGraphicsScene::mousePressEvent(event);
 }

@@ -39,6 +39,11 @@ void RectItem::startAnim()
     m_fadeOutAnim->start();
 }
 
+void RectItem::play()
+{
+    m_soundEffect.play();
+}
+
 void RectItem::setAlpha(qreal newVal)
 {
     QColor colorRect = brush().color();

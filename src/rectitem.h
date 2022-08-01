@@ -13,6 +13,7 @@ public:
     explicit RectItem(QString pathToSoundEffect, QObject *parent = nullptr);
     qreal alpha();
     void startAnim();
+    void play();
 signals:
     void finishAlphaAnim();
 public slots:
