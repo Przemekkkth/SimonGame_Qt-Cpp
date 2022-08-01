@@ -29,7 +29,7 @@ private:
     void drawScoreText();
     void drawStatusText();
     void drawButtons();
-    void loadSoundEffects();
+
     void changeBackgroundColor();
     QString getButtonClicked(QPointF clickedPoint);
     void flashButtonAnimation(QString color);
@@ -39,7 +39,6 @@ private:
     QElapsedTimer m_elapsedTimer;
     float m_deltaTime, m_loopTime;
     const float m_loopSpeed;
-    QSoundEffect m_beep1SEffect, m_beep2SEffect, m_beep3SEffect, m_beep4SEffect;
     QStringList m_pattern;
 
     int m_currentStep;

@@ -10,7 +10,6 @@ GameScene::GameScene(QObject *parent)
       m_loopSpeed(1.0f/float(Game::FPS)), m_score(0), m_waitingForInput(false), m_clickedPoint(Game::INVALID_STR),
       MOVE_PATTERN{Game::YELLOW_STR, Game::RED_STR, Game::BLUE_STR, Game::GREEN_STR}
 {
-    loadSoundEffects();
     setSceneRect(0,0, Game::RESOLUTION.width(), Game::RESOLUTION.height());
     // connect(&m_timer, &QTimer::timeout, this, &GameScene::loop);
     m_timer.start(m_loopSpeed);
@@ -40,33 +39,7 @@ GameScene::GameScene(QObject *parent)
 
 void GameScene::loop()
 {
-    //    m_deltaTime = m_elapsedTimer.elapsed();
-    //    m_elapsedTimer.restart();
 
-    //    m_loopTime += m_deltaTime;
-    //    if( m_loopTime > m_loopSpeed)
-    //    {
-    //        m_loopTime -= m_loopSpeed;
-    //        //setBackgroundBrush(QBrush(Game::BGCOLOR));
-    //        drawInfoText();
-    //        drawScoreText();
-    //        drawButtons();
-    //        if(!m_waitingForInput)
-    //        {
-    //            QThread::currentThread()->msleep(1000);
-    //            m_pattern.append(MOVE_PATTERN[rand()%MOVE_PATTERN->size()]);
-    //            foreach(QString button, m_pattern)
-    //            {
-    //                flashButtonAnimation(button);
-    //                QThread::currentThread()->msleep(Game::FLASHDELAY);
-    //            }
-    //            m_waitingForInput = true;
-    //        }
-    //        else
-    //        {
-
-    //        }
-    //    }
 }
 
 void GameScene::nextPossibleAnim()
@@ -113,7 +86,7 @@ void GameScene::drawStatusText()
     m_statusText->setPos(0, 10);
     m_statusText->setPen(QPen(Game::WHITE));
     m_statusText->setBrush(QBrush(Game::WHITE));
-    m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + "/ " + QString::number(m_pattern.size()).left(4));
+    m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + " / " + QString::number(m_pattern.size()).left(4));
     addItem(m_statusText);
 }
 
@@ -147,18 +120,6 @@ void GameScene::drawButtons()
     m_greenRectItem->setPos(Game::GREENRECT.x(), Game::GREENRECT.y());
     addItem(m_greenRectItem);
 
-}
-
-void GameScene::loadSoundEffects()
-{
-    m_beep1SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[0]));
-    m_beep1SEffect.setVolume(1.0f);
-    m_beep2SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[1]));
-    m_beep2SEffect.setVolume(1.0f);
-    m_beep3SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[2]));
-    m_beep3SEffect.setVolume(1.0f);
-    m_beep4SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[3]));
-    m_beep4SEffect.setVolume(1.0f);
 }
 
 void GameScene::changeBackgroundColor()
@@ -247,7 +208,7 @@ void GameScene::checkClickedPosition()
         changeBackgroundColor();
     }
     m_scoreText->setText("Score: " + QString::number(m_score));
-    m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + "/ " + QString::number(m_pattern.size()).left(4));
+    m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + " / " + QString::number(m_pattern.size()).left(4));
 }
 
 void GameScene::setPattern()
@@ -256,7 +217,7 @@ void GameScene::setPattern()
     {
         QThread::currentThread()->msleep(1000);
         m_pattern.append(MOVE_PATTERN[rand() % Game::PATTERN_SIZE]);
-        m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + "/ " + QString::number(m_pattern.size()).left(4));
+        m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + " / " + QString::number(m_pattern.size()).left(4));
         flashButtonAnimation(m_pattern[0]);
     }
 }
