@@ -30,6 +30,7 @@ private:
     void drawStatusText();
     void drawButtons();
     void loadSoundEffects();
+    void changeBackgroundColor();
     QString getButtonClicked(QPointF clickedPoint);
     void flashButtonAnimation(QString color);
     void checkClickedPosition();

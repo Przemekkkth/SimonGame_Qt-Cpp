@@ -102,6 +102,7 @@ void GameScene::drawScoreText()
     m_scoreText->setPen(QPen(Game::WHITE));
     m_scoreText->setBrush(QBrush(Game::WHITE));
     m_scoreText->setText("Score: " + QString::number(m_score));
+    m_scoreText->setZValue(1);
     addItem(m_scoreText);
 }
 
@@ -158,6 +159,11 @@ void GameScene::loadSoundEffects()
     m_beep3SEffect.setVolume(1.0f);
     m_beep4SEffect.setSource(QUrl(Game::PATH_TO_BEEP_SOUNDS[3]));
     m_beep4SEffect.setVolume(1.0f);
+}
+
+void GameScene::changeBackgroundColor()
+{
+    setBackgroundBrush(QBrush(QColor(rand()%200, rand()%200, rand()%200)));
 }
 
 QString GameScene::getButtonClicked(QPointF clickedPoint)
@@ -217,6 +223,7 @@ void GameScene::activeGameOver()
     m_redRectItem->play();
     m_blueRectItem->play();
     setPattern();
+    setBackgroundBrush(QBrush(Game::BGCOLOR));
 }
 
 void GameScene::checkClickedPosition()
@@ -237,7 +244,7 @@ void GameScene::checkClickedPosition()
         setPattern();
         m_score++;
         m_currentStep = 0;
-
+        changeBackgroundColor();
     }
     m_scoreText->setText("Score: " + QString::number(m_score));
     m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + "/ " + QString::number(m_pattern.size()).left(4));
