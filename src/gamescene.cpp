@@ -25,6 +25,7 @@ GameScene::GameScene(QObject *parent)
     drawInfoText();
     drawScoreText();
     drawButtons();
+    drawStatusText();
 
     connect(this, &GameScene::changePattern, this, &GameScene::setPattern);
     connect(m_yellowRectItem, &RectItem::finishAlphaAnim, this, &GameScene::nextPossibleAnim);
@@ -102,6 +103,17 @@ void GameScene::drawScoreText()
     m_scoreText->setBrush(QBrush(Game::WHITE));
     m_scoreText->setText("Score: " + QString::number(m_score));
     addItem(m_scoreText);
+}
+
+void GameScene::drawStatusText()
+{
+    m_statusText = new QGraphicsSimpleTextItem();
+    m_statusText->setFont(m_basicFont);
+    m_statusText->setPos(0, 10);
+    m_statusText->setPen(QPen(Game::WHITE));
+    m_statusText->setBrush(QBrush(Game::WHITE));
+    m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + "/ " + QString::number(m_pattern.size()).left(4));
+    addItem(m_statusText);
 }
 
 void GameScene::drawButtons()
@@ -194,6 +206,19 @@ void GameScene::flashButtonAnimation(QString color)
     }
 }
 
+void GameScene::activeGameOver()
+{
+    m_waitingForInput = false;
+    m_pattern.clear();
+    m_score = 0;
+    m_currentStep = 0;
+    m_yellowRectItem->play();
+    m_redRectItem->play();
+    m_redRectItem->play();
+    m_blueRectItem->play();
+    setPattern();
+}
+
 void GameScene::checkClickedPosition()
 {
     if(m_clickedPoint == m_pattern[m_currentStep])
@@ -202,15 +227,7 @@ void GameScene::checkClickedPosition()
     }
     else
     {
-        m_waitingForInput = false;
-        m_pattern.clear();
-        m_score = 0;
-        m_currentStep = 0;
-        m_yellowRectItem->play();
-        m_redRectItem->play();
-        m_redRectItem->play();
-        m_blueRectItem->play();
-        setPattern();
+        activeGameOver();
     }
 
 
@@ -223,6 +240,7 @@ void GameScene::checkClickedPosition()
 
     }
     m_scoreText->setText("Score: " + QString::number(m_score));
+    m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + "/ " + QString::number(m_pattern.size()).left(4));
 }
 
 void GameScene::setPattern()
@@ -231,6 +249,7 @@ void GameScene::setPattern()
     {
         QThread::currentThread()->msleep(1000);
         m_pattern.append(MOVE_PATTERN[rand() % Game::PATTERN_SIZE]);
+        m_statusText->setText("Move: " + QString::number(m_currentStep).left(4) + "/ " + QString::number(m_pattern.size()).left(4));
         flashButtonAnimation(m_pattern[0]);
     }
 }

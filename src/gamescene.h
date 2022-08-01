@@ -27,6 +27,7 @@ public slots:
 private:
     void drawInfoText();
     void drawScoreText();
+    void drawStatusText();
     void drawButtons();
     void loadSoundEffects();
     QString getButtonClicked(QPointF clickedPoint);
@@ -52,7 +53,10 @@ private:
     const QString MOVE_PATTERN[4];
     // QGraphicsScene interface
     QGraphicsSimpleTextItem *m_scoreText;
+    QGraphicsSimpleTextItem *m_statusText;
     RectItem *m_yellowRectItem, *m_redRectItem, *m_greenRectItem, *m_blueRectItem;
+    void activeGameOver();
+
 protected:
     virtual void keyPressEvent(QKeyEvent *event) override;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
