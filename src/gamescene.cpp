@@ -203,6 +203,7 @@ void GameScene::checkClickedPosition()
     else
     {
         m_waitingForInput = false;
+        m_pattern.clear();
         m_score = 0;
         m_currentStep = 0;
         m_yellowRectItem->play();
