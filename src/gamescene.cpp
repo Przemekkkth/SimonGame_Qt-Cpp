@@ -15,7 +15,7 @@ GameScene::GameScene(QObject *parent)
     m_timer.start(m_loopSpeed);
     m_elapsedTimer.start();
 
-
+    srand(time(0));
     int id = QFontDatabase::addApplicationFont(Game::PATH_TO_BASIC_FONT);
     m_basicFont = QFont(QFontDatabase::applicationFontFamilies(id).at(0), 15, 0);
     m_pattern.clear();
