@@ -39,7 +39,6 @@ GameScene::GameScene(QObject *parent)
 
 void GameScene::loop()
 {
-
 }
 
 void GameScene::nextPossibleAnim()

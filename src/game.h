@@ -41,6 +41,8 @@ public:
     static const QString PATH_TO_BEEP_SOUNDS[4];
     static const QString PATH_TO_BASIC_FONT;
 
+    static const QString PATH_TO_CURSOR_PIXMAP;
+
     static constexpr int PATTERN_SIZE = 4;
 
     static const QString GREEN_STR;

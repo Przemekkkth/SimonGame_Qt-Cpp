@@ -11,6 +11,7 @@ View::View(QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     connect(m_gameScene, &GameScene::changePattern, m_gameScene, &GameScene::setPattern);
+    setCursor(QCursor(QPixmap(Game::PATH_TO_CURSOR_PIXMAP)));
 }
 
 void View::keyPressEvent(QKeyEvent *event)
