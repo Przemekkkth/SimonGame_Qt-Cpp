@@ -11,6 +11,11 @@ const QString Game::PATH_TO_BEEP_SOUNDS[4] =
 
 const QString Game::PATH_TO_BASIC_FONT = QString(":/res/freesansbold.ttf");
 
+const QString Game::GREEN_STR = "GREEN";
+const QString Game::RED_STR = "RED";
+const QString Game::YELLOW_STR = "YELLOW";
+const QString Game::BLUE_STR = "BLUE";
+const QString Game::INVALID_STR = "NONE";
 
 Game::Game()
 {

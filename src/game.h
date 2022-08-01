@@ -42,6 +42,12 @@ public:
     static const QString PATH_TO_BASIC_FONT;
 
     static constexpr int PATTERN_SIZE = 4;
+
+    static const QString GREEN_STR;
+    static const QString RED_STR;
+    static const QString YELLOW_STR;
+    static const QString BLUE_STR;
+    static const QString INVALID_STR;
 };
 
 #endif // GAME_H
