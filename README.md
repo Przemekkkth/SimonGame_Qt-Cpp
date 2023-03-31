@@ -15,6 +15,6 @@ Compile
 qmake && make
 ```
 ## Addons
-* [Qt] (https://www.qt.io/) - Cross-Platform software for embedded & desktop
-* [SFX] (https://www.leshylabs.com/apps/sfMaker/) - Sound Effects
-* [YT] (https://youtu.be/dp_OKrs08wo) - Gameplay
+* [Qt](https://www.qt.io/) - Cross-Platform software for embedded & desktop
+* [SFX](https://www.leshylabs.com/apps/sfMaker/) - Sound Effects
+* [YT](https://youtu.be/dp_OKrs08wo) - Gameplay
